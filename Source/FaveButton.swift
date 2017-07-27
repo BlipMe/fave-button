@@ -29,6 +29,8 @@ import UIKit
 public typealias DotColors = (first: UIColor, second: UIColor)
 
 public protocol FaveButtonDelegate{
+    func faveButton(_ faveButton: FaveButton, willSelect selected: Bool)
+    
     func faveButton(_ faveButton: FaveButton, didSelected selected: Bool)
     
     func faveButtonDotColors(_ faveButton: FaveButton) -> [DotColors]?
@@ -188,6 +190,8 @@ extension FaveButton{
         guard case let delegate as FaveButtonDelegate = self.delegate else{
             return
         }
+        
+        delegate.faveButton(sender, willSelect: sender.isSelected)
         
         let delay = DispatchTime.now() + Double(Int64(Double(NSEC_PER_SEC) * Const.duration)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: delay){
